@@ -7,16 +7,18 @@ const retrieveProducts = async ({ queryKey }) => {
     return response.data;
 }
 
-export default function ProductList() {
+export default function ProductList({ setSelectedProductId }) {
 
     const { data: products, error, isLoading } = useQuery({
         queryKey: ["products"],
         queryFn: retrieveProducts,
+        // refetchInterval: 1000,
     });
 
 
     if (isLoading) return <div>Fetching Products...</div>
     if (error) return <div>An Error Occured : ${error.message}</div>
+
 
     return (
         <div className='flex flex-col justify-center items-center w-3/5 '>
@@ -33,6 +35,7 @@ export default function ProductList() {
                                 src={product.thumbnail}
                                 alt={product.title} />
                             <p className="text-xl my-3">{product.title}</p>
+                            <button className='bg-yellow-400 p-2 rounded-lg mb-2 ' onClick={() => setSelectedProductId(product.id)}>Show Preview</button>
                         </li>
                     ))
                 }
