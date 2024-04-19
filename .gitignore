@@ -8,6 +8,10 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+use-react-hook
+use-react-query
+rnext
+
 dist
 dist-ssr
 *.local
