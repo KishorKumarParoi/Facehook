@@ -1,12 +1,9 @@
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts";
 import Field from "../common/Field";
 
 export default function LoginForm() {
     const navigate = useNavigate();
-    const { setAuth } = useContext(AuthContext);
     const {
         register,
         handleSubmit,
@@ -14,8 +11,6 @@ export default function LoginForm() {
     } = useForm();
 
     const submitForm = (formData) => {
-        const user = { ...formData };
-        setAuth({ user });
         console.log(formData);
         navigate('/');
     }
