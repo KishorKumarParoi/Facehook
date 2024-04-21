@@ -1,3 +1,5 @@
 
 import useAuth from './useAuth';
-export { useAuth };
+import useAxios from './useAxios';
+
+export { useAuth, useAxios };
