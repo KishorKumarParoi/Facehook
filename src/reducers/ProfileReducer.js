@@ -39,8 +39,19 @@ const ProfileReducer = (state, action) => {
                 loading: false,
                 user: {
                     ...state.user,
-                    bio: action.data.bio,
+                    bio: action?.data?.bio,
                 }
+            }
+        }
+
+        case actions.profile.IMAGE_UPDATED: {
+            return {
+                ...state,
+                loading: false,
+                user: {
+                    ...state.user,
+                    avatar: action?.data?.avatar,
+                },
             }
         }
 

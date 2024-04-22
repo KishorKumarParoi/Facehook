@@ -13,7 +13,7 @@ const Bio = () => {
     const [editMode, setEditMode] = useState(false);
 
     const handleBioEdit = async () => {
-        // dispatch({ type: actions.profile.DATA_FETCHING });
+        dispatch({ type: actions.profile.DATA_FETCHING }); 
 
         try {
             const response = await api.patch(
