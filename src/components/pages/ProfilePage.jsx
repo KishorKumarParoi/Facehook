@@ -1,29 +1,26 @@
-import { useEffect, useState } from "react";
-import { useAuth, useAxios } from "../../hooks";
+import { useEffect } from "react";
+import { actions } from "../../actions";
+import { useAuth, useAxios, useProfile } from "../../hooks";
 
 export default function ProfilePage() {
-    const [user, setUser] = useState(null);
     const { api } = useAxios();
     const { auth } = useAuth();
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+
+    const { state, dispatch } = useProfile();
 
 
     useEffect(() => {
-        setLoading(true);
+        dispatch({ type: actions.profile.DATA_FETCHING });
 
         const fetchProfile = async () => {
             try {
                 const response = await api.get(`${import.meta.env.VITE_SERVER_BASE_URL}/profile/${auth?.user?.id}`);
-                setUser(response.data.user);
-                setPosts(response.data.posts);
-                console.log(user);
+                if (response.status === 200) {
+                    dispatch({ type: actions.profile.DATA_FETCHED, data: response.data });
+                }
             } catch (error) {
                 console.error(error);
-                setError(error);
-            } finally {
-                setLoading(false);
+                dispatch({ type: actions.profile.DATA_FETCHING_ERROR, error: error.message });
             }
         }
 
@@ -31,13 +28,13 @@ export default function ProfilePage() {
     }, []);
 
 
-    if (loading) return <h1>Fetching your profile data...</h1>
+    if (state?.loading) return <h1>Fetching your profile data...</h1>
 
     return (
         <div>
-            <h1 className="text-3xl bg-yellow-500 text-center "> Welcome, {user?.firstName} {user?.lastName}  </h1>
-            <p>You Have {posts.length} posts</p>
-            {error && <p>{error}</p>}
+            <h1 className="text-3xl bg-yellow-500 text-center "> Welcome, {state?.user?.firstName} {state?.user?.lastName}  </h1>
+            <p>You Have {state?.posts.length} posts</p>
+            {state?.error && <p>{state?.error}</p>}
         </div>
     )
 }
