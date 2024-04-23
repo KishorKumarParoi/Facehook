@@ -1,5 +1,8 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import female from '../../assets/icons/female.png';
+import male from '../../assets/icons/male.jpeg';
+import others from '../../assets/icons/others.png';
 import Field from "../common/Field";
 
 import { useNavigate } from "react-router-dom";
@@ -15,6 +18,15 @@ const RegistrationForm = () => {
 
     const submitForm = async (formData) => {
         console.log(formData);
+
+        if (formData.gender === 'male') {
+            formData.avatar = male;
+        } else if (formData.gender === 'female') {
+            formData.avatar = female;
+        } else {
+            formData.avatar = others;
+        }
+
         try {
             let response = await axios.post(
                 `${import.meta.env.VITE_SERVER_BASE_URL}/auth/register`,
