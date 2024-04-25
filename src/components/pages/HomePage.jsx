@@ -1,13 +1,12 @@
 
-import { useEffect, useReducer } from 'react';
+import { useEffect } from 'react';
 import { actions } from '../../actions';
-import { useAxios } from '../../hooks';
-import { PostReducer, initialState } from '../../reducers/PostReducer';
+import { useAxios, usePost } from '../../hooks';
 import PostList from '../posts/PostList';
 
 const HomePage = () => {
     const { api } = useAxios();
-    const [state, dispatch] = useReducer(PostReducer, initialState);
+    const { state, dispatch } = usePost();
 
     useEffect(() => {
         dispatch({ type: actions.post.DATA_FETCHING });
@@ -18,6 +17,7 @@ const HomePage = () => {
                     `${import.meta.env.VITE_SERVER_BASE_URL}/posts`
                 );
 
+
                 console.log(response.data);
 
                 if (response.status === 200) {
@@ -26,7 +26,7 @@ const HomePage = () => {
 
             } catch (error) {
                 console.log(error);
-                dispatch({ type: actions.post.DATA_FETCHING_ERROR, error: error.message });
+                dispatch({ type: actions.post.DATA_FETCH_ERROR, error: error.message });
             }
         }
 

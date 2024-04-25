@@ -30,6 +30,13 @@ const PostReducer = (state, action) => {
                 error: action.error,
             };
         }
+        case actions.post.DATA_CREATED: {
+            return {
+                ...state,
+                loading: false,
+                posts: [action.data, ...state.posts],
+            };
+        }
 
         case actions.post.DATA_EDITED: {
             return {
@@ -67,4 +74,5 @@ const PostReducer = (state, action) => {
     }
 };
 
-export { initialState, PostReducer };
+export { PostReducer, initialState };
+
